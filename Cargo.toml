@@ -41,8 +41,8 @@ glow         = "0.11"
 image        = "0.23"
 instant      = { version = "0.1", features = ["wasm-bindgen"] }
 libc         = "0.2"
-nalgebra     = "0.30"
-ncollide3d   = "0.33"
+nalgebra     = "0.31"
+ncollide3d   = {git = "https://github.com/Exiled1/ncollide"}
 num-traits   = "0.2"
 rusttype     = { version = "0.8.3", features = ["gpu_cache"] }
 serde        = "1"
@@ -77,6 +77,6 @@ web-sys = { version = "0.3", features = [
 
 [dev-dependencies]
 env_logger = "0.9"
-nalgebra   = { version = "0.30", features = ["rand"] }
-ncollide2d = "0.33"
+nalgebra   = { version = "0.31", features = ["rand"] }
+ncollide2d = {git = "https://github.com/Exiled1/ncollide"}
 rand       = "0.8"

@@ -127,10 +127,10 @@ impl AbstractCanvas for GLCanvas {
                     }
                     glutin::event::WindowEvent::CursorMoved {
                         position,
-                        modifiers,
                         ..
                     } => {
-                        let modifiers = translate_modifiers(modifiers);
+                        let modif = glutin::event::ModifiersState::default();
+                        let modifiers = translate_modifiers(modif);
                         *cursor_pos = Some(position.into());
                         let _ = out_events
                             .send(WindowEvent::CursorPos(position.x, position.y, modifiers));
@@ -138,12 +138,12 @@ impl AbstractCanvas for GLCanvas {
                     glutin::event::WindowEvent::MouseInput {
                         state,
                         button,
-                        modifiers,
                         ..
                     } => {
                         let action = translate_action(state);
                         let button = translate_mouse_button(button);
-                        let modifiers = translate_modifiers(modifiers);
+                        let modif = glutin::event::ModifiersState::default();
+                        let modifiers = translate_modifiers(modif);
                         button_states[button as usize] = action;
                         let _ =
                             out_events.send(WindowEvent::MouseButton(button, action, modifiers));
@@ -165,7 +165,7 @@ impl AbstractCanvas for GLCanvas {
                         ));
                     }
                     glutin::event::WindowEvent::MouseWheel {
-                        delta, modifiers, ..
+                        delta, ..
                     } => {
                         let (x, y) = match delta {
                             glutin::event::MouseScrollDelta::LineDelta(dx, dy) => {
@@ -173,13 +173,15 @@ impl AbstractCanvas for GLCanvas {
                             }
                             glutin::event::MouseScrollDelta::PixelDelta(delta) => delta.into(),
                         };
-                        let modifiers = translate_modifiers(modifiers);
+                        let modif = glutin::event::ModifiersState::default();
+                        let modifiers = translate_modifiers(modif);
                         let _ = out_events.send(WindowEvent::Scroll(x, y, modifiers));
                     }
                     glutin::event::WindowEvent::KeyboardInput { input, .. } => {
                         let action = translate_action(input.state);
                         let key = translate_key(input.virtual_keycode);
-                        let modifiers = translate_modifiers(input.modifiers);
+                        let modif = glutin::event::ModifiersState::default();
+                        let modifiers = translate_modifiers(modif);
                         key_states[key as usize] = action;
                         let _ = out_events.send(WindowEvent::Key(key, action, modifiers));
                     }
